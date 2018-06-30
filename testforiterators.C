@@ -12,9 +12,9 @@ template <typename Iter, typename Value>
 void do_trials(struct timeval & endtime)
 {
   std::vector<Value> myvec(vec_size);
-  for (std::size_t t=0; t != n_trials; ++t)
+  for (Iter t=0, t_end=n_trials; t != t_end; ++t)
     {
-      for (std::size_t i=0; i != vec_size; ++i)
+      for (Iter i=0, i_end=vec_size; i != i_end; ++i)
         {
           myvec[i] = t + vec_size - i;
         }
