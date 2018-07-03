@@ -9,7 +9,7 @@
 #include "testwork.h"
 
 const std::size_t vec_size = 1e1;
-const std::size_t n_trials = 1e3;
+const std::size_t n_trials = 1e8;
 
 // Version of stringize macro that takes multiple arguments...
 #define _STRINGIZE(...) #__VA_ARGS__
