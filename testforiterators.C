@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <cstddef>
 #include <sys/time.h>
 
 #include "testwork.h"
@@ -23,6 +24,14 @@ const std::size_t n_trials = 1e3;
 #define TEST7 int, int
 #define TEST8 int, std::size_t
 #define TEST9 int, std::ptrdiff_t
+#define TEST10 std::size_t, unsigned int
+#define TEST11 std::size_t, int
+#define TEST12 std::size_t, std::size_t
+#define TEST13 std::size_t, std::ptrdiff_t
+#define TEST14 std::ptrdiff_t, unsigned int
+#define TEST15 std::ptrdiff_t, int
+#define TEST16 std::ptrdiff_t, std::size_t
+#define TEST17 std::ptrdiff_t, std::ptrdiff_t
 
 template <typename Iter, typename Value>
 void do_trials(struct timeval & endtime)
@@ -62,15 +71,15 @@ int main(void)
   do_trials<TEST8>(times[4*1+4]);   titles.push_back(STRINGIZE(TEST8));
   do_trials<TEST9>(times[4*1+5]);   titles.push_back(STRINGIZE(TEST9));
 
-  do_trials<std::size_t, unsigned int>(times[4*2+2]);
-  do_trials<std::size_t, int>(times[4*2+3]);
-  do_trials<std::size_t, std::size_t>(times[4*2+4]);
-  do_trials<std::size_t, std::ptrdiff_t>(times[4*2+5]);
+  do_trials<TEST10>(times[4*2+2]);   titles.push_back(STRINGIZE(TEST10));
+  do_trials<TEST11>(times[4*2+3]);   titles.push_back(STRINGIZE(TEST11));
+  do_trials<TEST12>(times[4*2+4]);   titles.push_back(STRINGIZE(TEST12));
+  do_trials<TEST13>(times[4*2+5]);   titles.push_back(STRINGIZE(TEST13));
 
-  do_trials<std::ptrdiff_t, unsigned int>(times[4*3+2]);
-  do_trials<std::ptrdiff_t, int>(times[4*3+3]);
-  do_trials<std::ptrdiff_t, std::size_t>(times[4*3+4]);
-  do_trials<std::ptrdiff_t, std::ptrdiff_t>(times[4*3+5]);
+  do_trials<TEST14>(times[4*3+2]);   titles.push_back(STRINGIZE(TEST14));
+  do_trials<TEST15>(times[4*3+3]);   titles.push_back(STRINGIZE(TEST15));
+  do_trials<TEST16>(times[4*3+4]);   titles.push_back(STRINGIZE(TEST16));
+  do_trials<TEST17>(times[4*3+5]);   titles.push_back(STRINGIZE(TEST17));
 
   std::cout << "Start = " << times[0].tv_sec << ',' << times[0].tv_usec << std::endl;
 
@@ -81,13 +90,13 @@ int main(void)
         ((times[i].tv_sec - times[i-1].tv_sec)*1000000+
          (times[i].tv_usec - times[i-1].tv_usec));
 
-      std::cout << "Next = " << times[i].tv_sec << ',' << times[i].tv_usec << std::endl;
+      std::cout << "\nNext = " << times[i].tv_sec << ',' << times[i].tv_usec << std::endl;
 
       std::string title = "";
       if (i < titles.size())
         title = "(" + titles[i] + ")";
 
-      std::cout << "\nTotal time " << i << ", " << title << " = " << elapsed_times[i-1] << std::endl;
+      std::cout << "Total time " << i << ", " << title << " = " << elapsed_times[i-1] << std::endl;
 
       if (i > 1)
         {
