@@ -54,32 +54,32 @@ void do_trials(struct timeval & endtime)
 int main(void)
 {
   std::vector<struct timeval> times(4*4+1+1);
-  std::vector<std::string> titles;
+  std::vector<std::string> titles(times.size());
   {
     const int rval = gettimeofday(&times[0], NULL);
     assert (!rval);
   }
 
-  do_trials<TEST1>(times[4*0+1]);   titles.push_back(STRINGIZE(TEST1));
-  do_trials<TEST2>(times[4*0+2]);   titles.push_back(STRINGIZE(TEST2));
-  do_trials<TEST3>(times[4*0+3]);   titles.push_back(STRINGIZE(TEST3));
-  do_trials<TEST4>(times[4*0+4]);   titles.push_back(STRINGIZE(TEST4));
-  do_trials<TEST5>(times[4*0+5]);   titles.push_back(STRINGIZE(TEST5));
+  do_trials<TEST1>(times[4*0+1]);   titles[4*0+1] = STRINGIZE(TEST1);
+  do_trials<TEST2>(times[4*0+2]);   titles[4*0+2] = STRINGIZE(TEST2);
+  do_trials<TEST3>(times[4*0+3]);   titles[4*0+3] = STRINGIZE(TEST3);
+  do_trials<TEST4>(times[4*0+4]);   titles[4*0+4] = STRINGIZE(TEST4);
+  do_trials<TEST5>(times[4*0+5]);   titles[4*0+5] = STRINGIZE(TEST5);
 
-  do_trials<TEST6>(times[4*1+2]);   titles.push_back(STRINGIZE(TEST6));
-  do_trials<TEST7>(times[4*1+3]);   titles.push_back(STRINGIZE(TEST7));
-  do_trials<TEST8>(times[4*1+4]);   titles.push_back(STRINGIZE(TEST8));
-  do_trials<TEST9>(times[4*1+5]);   titles.push_back(STRINGIZE(TEST9));
+  do_trials<TEST6>(times[4*1+2]);   titles[4*1+2] = STRINGIZE(TEST6);
+  do_trials<TEST7>(times[4*1+3]);   titles[4*1+3] = STRINGIZE(TEST7);
+  do_trials<TEST8>(times[4*1+4]);   titles[4*1+4] = STRINGIZE(TEST8);
+  do_trials<TEST9>(times[4*1+5]);   titles[4*1+5] = STRINGIZE(TEST9);
 
-  do_trials<TEST10>(times[4*2+2]);   titles.push_back(STRINGIZE(TEST10));
-  do_trials<TEST11>(times[4*2+3]);   titles.push_back(STRINGIZE(TEST11));
-  do_trials<TEST12>(times[4*2+4]);   titles.push_back(STRINGIZE(TEST12));
-  do_trials<TEST13>(times[4*2+5]);   titles.push_back(STRINGIZE(TEST13));
+  do_trials<TEST10>(times[4*2+2]);   titles[4*2+2] = STRINGIZE(TEST10);
+  do_trials<TEST11>(times[4*2+3]);   titles[4*2+3] = STRINGIZE(TEST11);
+  do_trials<TEST12>(times[4*2+4]);   titles[4*2+4] = STRINGIZE(TEST12);
+  do_trials<TEST13>(times[4*2+5]);   titles[4*2+5] = STRINGIZE(TEST13);
 
-  do_trials<TEST14>(times[4*3+2]);   titles.push_back(STRINGIZE(TEST14));
-  do_trials<TEST15>(times[4*3+3]);   titles.push_back(STRINGIZE(TEST15));
-  do_trials<TEST16>(times[4*3+4]);   titles.push_back(STRINGIZE(TEST16));
-  do_trials<TEST17>(times[4*3+5]);   titles.push_back(STRINGIZE(TEST17));
+  do_trials<TEST14>(times[4*3+2]);   titles[4*3+2] = STRINGIZE(TEST14);
+  do_trials<TEST15>(times[4*3+3]);   titles[4*3+3] = STRINGIZE(TEST15);
+  do_trials<TEST16>(times[4*3+4]);   titles[4*3+4] = STRINGIZE(TEST16);
+  do_trials<TEST17>(times[4*3+5]);   titles[4*3+5] = STRINGIZE(TEST17);
 
   std::cout << "Start = " << times[0].tv_sec << ',' << times[0].tv_usec << std::endl;
 
