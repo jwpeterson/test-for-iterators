@@ -92,11 +92,7 @@ int main(void)
 
       std::cout << "\nNext = " << times[i].tv_sec << ',' << times[i].tv_usec << std::endl;
 
-      std::string title = "";
-      if (i < titles.size())
-        title = "(" + titles[i] + ")";
-
-      std::cout << "Total time " << i << ", " << title << " = " << elapsed_times[i-1] << std::endl;
+      std::cout << "Total time " << i << ", " << titles[i] << " = " << elapsed_times[i-1] << std::endl;
 
       if (i > 1)
         {
