@@ -10,17 +10,6 @@
 const std::size_t vec_size = 1e1;
 const std::size_t n_trials = 1e3;
 
-#define STRINGIFY(x) #x
-#define TOSTRING(x) STRINGIFY(x)
-
-// #define stringifyName(name) #name
-// #define QUOTE(macro) stringifyName(macro)
-
-// #define STRING(s) #s
-
-#define TO_STR2(x) #x
-#define TO_STR(x) TO_STR2(x)
-
 // Version of stringize macro that takes multiple arguments...
 #define _STRINGIZE(...) #__VA_ARGS__
 #define STRINGIZE(...) _STRINGIZE(__VA_ARGS__)
@@ -32,8 +21,8 @@ const std::size_t n_trials = 1e3;
 #define TEST5 unsigned int, std::ptrdiff_t
 #define TEST6 int, unsigned int
 #define TEST7 int, int
-
-#define FOO foo, bar
+#define TEST8 int, std::size_t
+#define TEST9 int, std::ptrdiff_t
 
 template <typename Iter, typename Value>
 void do_trials(struct timeval & endtime)
@@ -55,11 +44,6 @@ void do_trials(struct timeval & endtime)
 
 int main(void)
 {
-  // This doesn't work if FOO expands to something with a comma!
-  std::stringstream ss;
-  ss << STRINGIZE(FOO);
-  std::cout << ss.str() << std::endl;
-
   std::vector<struct timeval> times(4*4+1+1);
   std::vector<std::string> titles;
   {
@@ -73,10 +57,10 @@ int main(void)
   do_trials<TEST4>(times[4*0+4]);   titles.push_back(STRINGIZE(TEST4));
   do_trials<TEST5>(times[4*0+5]);   titles.push_back(STRINGIZE(TEST5));
 
-  do_trials<TEST6>(times[4*1+2]);
-  do_trials<TEST7>(times[4*1+3]);
-  do_trials<int, std::size_t>(times[4*1+4]);
-  do_trials<int, std::ptrdiff_t>(times[4*1+5]);
+  do_trials<TEST6>(times[4*1+2]);   titles.push_back(STRINGIZE(TEST6));
+  do_trials<TEST7>(times[4*1+3]);   titles.push_back(STRINGIZE(TEST7));
+  do_trials<TEST8>(times[4*1+4]);   titles.push_back(STRINGIZE(TEST8));
+  do_trials<TEST9>(times[4*1+5]);   titles.push_back(STRINGIZE(TEST9));
 
   do_trials<std::size_t, unsigned int>(times[4*2+2]);
   do_trials<std::size_t, int>(times[4*2+3]);
@@ -103,7 +87,7 @@ int main(void)
       if (i < titles.size())
         title = "(" + titles[i] + ")";
 
-      std::cout << "Total time " << i << ", " << title << " = " << elapsed_times[i-1] << std::endl;
+      std::cout << "\nTotal time " << i << ", " << title << " = " << elapsed_times[i-1] << std::endl;
 
       if (i > 1)
         {
