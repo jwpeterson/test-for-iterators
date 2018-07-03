@@ -1,12 +1,39 @@
 #include <cassert>
 #include <iostream>
 #include <vector>
+#include <string>
+#include <sstream>
 #include <sys/time.h>
 
 #include "testwork.h"
 
 const std::size_t vec_size = 1e1;
-const std::size_t n_trials = 1e8;
+const std::size_t n_trials = 1e3;
+
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+
+// #define stringifyName(name) #name
+// #define QUOTE(macro) stringifyName(macro)
+
+// #define STRING(s) #s
+
+#define TO_STR2(x) #x
+#define TO_STR(x) TO_STR2(x)
+
+// Version of stringize macro that takes multiple arguments...
+#define _STRINGIZE(...) #__VA_ARGS__
+#define STRINGIZE(...) _STRINGIZE(__VA_ARGS__)
+
+#define TEST1 unsigned int, unsigned int
+#define TEST2 unsigned int, unsigned int
+#define TEST3 unsigned int, int
+#define TEST4 unsigned int, std::size_t
+#define TEST5 unsigned int, std::ptrdiff_t
+#define TEST6 int, unsigned int
+#define TEST7 int, int
+
+#define FOO foo, bar
 
 template <typename Iter, typename Value>
 void do_trials(struct timeval & endtime)
@@ -28,21 +55,26 @@ void do_trials(struct timeval & endtime)
 
 int main(void)
 {
-  std::vector<struct timeval> times(4*4+1+1);
+  // This doesn't work if FOO expands to something with a comma!
+  std::stringstream ss;
+  ss << STRINGIZE(FOO);
+  std::cout << ss.str() << std::endl;
 
+  std::vector<struct timeval> times(4*4+1+1);
+  std::vector<std::string> titles;
   {
     const int rval = gettimeofday(&times[0], NULL);
     assert (!rval);
   }
 
-  do_trials<unsigned int, unsigned int>(times[4*0+1]);
-  do_trials<unsigned int, unsigned int>(times[4*0+2]);
-  do_trials<unsigned int, int>(times[4*0+3]);
-  do_trials<unsigned int, std::size_t>(times[4*0+4]);
-  do_trials<unsigned int, std::ptrdiff_t>(times[4*0+5]);
+  do_trials<TEST1>(times[4*0+1]);   titles.push_back(STRINGIZE(TEST1));
+  do_trials<TEST2>(times[4*0+2]);   titles.push_back(STRINGIZE(TEST2));
+  do_trials<TEST3>(times[4*0+3]);   titles.push_back(STRINGIZE(TEST3));
+  do_trials<TEST4>(times[4*0+4]);   titles.push_back(STRINGIZE(TEST4));
+  do_trials<TEST5>(times[4*0+5]);   titles.push_back(STRINGIZE(TEST5));
 
-  do_trials<int, unsigned int>(times[4*1+2]);
-  do_trials<int, int>(times[4*1+3]);
+  do_trials<TEST6>(times[4*1+2]);
+  do_trials<TEST7>(times[4*1+3]);
   do_trials<int, std::size_t>(times[4*1+4]);
   do_trials<int, std::ptrdiff_t>(times[4*1+5]);
 
@@ -67,7 +99,11 @@ int main(void)
 
       std::cout << "Next = " << times[i].tv_sec << ',' << times[i].tv_usec << std::endl;
 
-      std::cout << "Total time " << i << " = " << elapsed_times[i-1] << std::endl;
+      std::string title = "";
+      if (i < titles.size())
+        title = "(" + titles[i] + ")";
+
+      std::cout << "Total time " << i << ", " << title << " = " << elapsed_times[i-1] << std::endl;
 
       if (i > 1)
         {
